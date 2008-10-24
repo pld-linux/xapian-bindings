@@ -9,7 +9,7 @@ Summary:	Bindings for Xapian
 Name:		xapian-bindings
 Version:	1.0.4
 Release:	0.1
-License:	GPL
+License:	GPL v2+
 Group:		Development/Languages
 URL:		http://www.xapian.org/
 Source0:	http://www.oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
