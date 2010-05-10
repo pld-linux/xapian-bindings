@@ -1,30 +1,32 @@
-# Conditional build:
-%bcond_with	csharp		# do not build C# bindings
-%bcond_without	php			# do not build PHP bindings
-%bcond_without	python		# do not build Python bindings
-%bcond_without	ruby		# do not build Ruby bindings
-%bcond_without	tcl			# do not build TCL bindings
 #
+# Conditional build:
+%bcond_with		csharp		# C# bindings
+%bcond_without	php			# PHP bindings
+%bcond_without	python		# Python bindings
+%bcond_without	ruby		# Ruby bindings
+%bcond_without	tcl			# TCL bindings
+%bcond_with		java		# Java bindings
+
 Summary:	Bindings for Xapian
 Name:		xapian-bindings
-Version:	1.0.4
-Release:	0.1
+Version:	1.0.16
+Release:	0.3
 License:	GPL v2+
 Group:		Development/Languages
 URL:		http://www.xapian.org/
 Source0:	http://www.oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	d572e0bec4c4c26f26224e1253c4aa8f
-# jdk??
-BuildRequires:	jdk
+# Source0-md5:	c330b2ccc451c890916c44446e148f07
+%{?with_java:BuildRequires:	jdk}
 %{?with_csharp:BuildRequires:	mono-devel}
 %{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel}
 BuildRequires:	rpmbuild(macros) >= 1.344
+BuildRequires:	rpmbuild(macros) >= 1.484
 %{?with_ruby:BuildRequires:	ruby-devel}
+%{?with_ruby:BuildRequires:	ruby-modules}
 %{?with_tcl:BuildRequires:	tcl-devel}
-BuildRequires:	xapian-core-devel = %{version}
-Requires:	xapian-core-libs = %{version}
+BuildRequires:	xapian-core-devel >= %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -35,7 +37,6 @@ add advanced indexing and search facilities to applications.
 %package -n python-xapian
 Summary:	Files needed for developing Python scripts which use Xapian
 Group:		Development/Languages/Python
-Requires:	%{name} = %{version}-%{release}
 %pyrequires_eq	python-modules
 
 %description -n python-xapian
@@ -48,7 +49,6 @@ which use Xapian.
 %package -n php-xapian
 Summary:	Files needed for developing PHP scripts which use Xapian
 Group:		Networking/Daemons
-Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
 Requires:	php-common >= 4:5.0.4
 
@@ -62,8 +62,7 @@ which use Xapian.
 %package -n ruby-xapian
 Summary:	Files needed for developing Ruby scripts which use Xapian
 Group:		Development/Languages
-Requires:	%{name} = %{version}-%{release}
-Requires:	ruby
+%{?ruby_mod_ver_requires_eq}
 
 %description -n ruby-xapian
 Xapian is an Open Source Probabilistic Information Retrieval
@@ -75,7 +74,6 @@ which use Xapian.
 %package -n tcl-xapian
 Summary:	Files needed for developing TCL scripts which use Xapian
 Group:		Development/Languages/Tcl
-Requires:	%{name} = %{version}-%{release}
 Requires:	tcl
 
 %description -n tcl-xapian
@@ -88,7 +86,6 @@ which use Xapian.
 %package -n csharp-xapian
 Summary:	Files needed for developing C# applications which use Xapian
 Group:		Development/Languages
-Requires:	%{name} = %{version}-%{release}
 Requires:	mono-core
 
 %description -n csharp-xapian
@@ -103,17 +100,23 @@ which use Xapian.
 
 %build
 %configure \
-	--with-swig \
+	%{?with_java:--with-java} \
 	%{?with_python:--with-python} \
 	%{?with_php:--with-php} \
 	%{?with_ruby:--with-ruby} \
 	%{?with_tcl:--with-tcl} \
 	%{?with_csharp:--with-csharp}
-%{__make}
+
+# PATH=. hack needed:
+# /bin/sh ../libtool  --config > libtoolconfig.tmp
+# . libtoolconfig.tmp; cp $objdir/_xapian.so .
+# /bin/sh: .: libtoolconfig.tmp: not found
+PATH=$PATH:. %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
+	phpincdir=%{php_data_dir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
@@ -131,22 +134,20 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog HACKING NEWS README TODO
-%dir %{_examplesdir}/%{name}-%{version}
+%{_examplesdir}/%{name}-%{version}
 
 %if %{with python}
 %files -n python-xapian
 %defattr(644,root,root,755)
 %{py_sitedir}/_xapian.so
 %{py_sitedir}/xapian.py[co]
-%{_examplesdir}/%{name}-%{version}/python
 %endif
 
 %if %{with php}
 %files -n php-xapian
 %defattr(644,root,root,755)
 %{php_extensiondir}/xapian.so
-%{php_data_dir}5/xapian.php
-%{_examplesdir}/%{name}-%{version}/php
+%{php_data_dir}/xapian.php
 %endif
 
 %if %{with ruby}
@@ -154,8 +155,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{ruby_sitearchdir}/_xapian.so
 %{ruby_sitelibdir}/xapian.rb
-
-%{_examplesdir}/%{name}-%{version}/ruby
 %endif
 
 %if %{with tcl}
@@ -164,7 +163,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/xapian%{version}
 %{_libdir}/xapian%{version}/pkgIndex.tcl
 %attr(755,root,root) %{_libdir}/xapian%{version}/xapian.so
-%{_examplesdir}/%{name}-%{version}/tcl8
 %endif
 
 %if %{with csharp}
@@ -176,5 +174,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/mono/XapianSharp
 %dir %{_libdir}/mono/gac
 %{_libdir}/mono/gac/XapianSharp
-%{_examplesdir}/%{name}-%{version}/csharp
 %endif
