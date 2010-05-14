@@ -21,6 +21,8 @@ Source0:	http://www.oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
 %{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel}
+BuildRequires:	python-modules
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.344
 BuildRequires:	rpmbuild(macros) >= 1.484
 %{?with_ruby:BuildRequires:	ruby-devel}
