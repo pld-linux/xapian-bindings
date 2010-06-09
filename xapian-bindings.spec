@@ -10,7 +10,7 @@
 Summary:	Bindings for Xapian
 Name:		xapian-bindings
 Version:	1.0.16
-Release:	0.3
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages
 URL:		http://www.xapian.org/
@@ -18,12 +18,11 @@ Source0:	http://www.oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	c330b2ccc451c890916c44446e148f07
 %{?with_java:BuildRequires:	jdk}
 %{?with_csharp:BuildRequires:	mono-devel}
-%{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
+%{?with_php:BuildRequires:	php-devel >= 4:5.0.4}
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel}
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.344
 BuildRequires:	rpmbuild(macros) >= 1.484
 %{?with_ruby:BuildRequires:	ruby-devel}
 %{?with_ruby:BuildRequires:	ruby-modules}
@@ -52,7 +51,6 @@ which use Xapian.
 Summary:	Files needed for developing PHP scripts which use Xapian
 Group:		Networking/Daemons
 %{?requires_php_extension}
-Requires:	php-common >= 4:5.0.4
 
 %description -n php-xapian
 Xapian is an Open Source Probabilistic Information Retrieval
@@ -128,6 +126,8 @@ for binding in %{?with_csharp:csharp} %{?with_php:php} %{?with_python:python} %{
 	cp -a $binding/docs/{index.html,examples} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/$binding
 done
 
+rm -f $RPM_BUILD_ROOT%{_libdir}/XapianSharp.la
+
 %py_postclean
 
 %clean
@@ -141,14 +141,14 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python}
 %files -n python-xapian
 %defattr(644,root,root,755)
-%{py_sitedir}/_xapian.so
+%attr(755,root,root) %{py_sitedir}/_xapian.so
 %{py_sitedir}/xapian.py[co]
 %endif
 
 %if %{with php}
 %files -n php-xapian
 %defattr(644,root,root,755)
-%{php_extensiondir}/xapian.so
+%attr(755,root,root) %{php_extensiondir}/xapian.so
 %{php_data_dir}/xapian.php
 %endif
 
@@ -170,8 +170,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with csharp}
 %files -n csharp-xapian
 %defattr(644,root,root,755)
-%{_libdir}/XapianSharp.la
-%{_libdir}/XapianSharp.so
+%attr(755,root,root) %{_libdir}/XapianSharp.so
 %dir %{_libdir}/mono
 %{_libdir}/mono/XapianSharp
 %dir %{_libdir}/mono/gac
