@@ -9,13 +9,13 @@
 
 Summary:	Bindings for Xapian
 Name:		xapian-bindings
-Version:	1.0.16
-Release:	3
+Version:	1.2.9
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages
 URL:		http://www.xapian.org/
 Source0:	http://www.oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	c330b2ccc451c890916c44446e148f07
+# Source0-md5:	ef527488aa0deef1e1ef9583326670fe
 %{?with_java:BuildRequires:	jdk}
 %{?with_csharp:BuildRequires:	mono-devel}
 %{?with_php:BuildRequires:	php-devel >= 4:5.0.4}
@@ -141,8 +141,9 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python}
 %files -n python-xapian
 %defattr(644,root,root,755)
-%attr(755,root,root) %{py_sitedir}/_xapian.so
-%{py_sitedir}/xapian.py[co]
+%dir %{py_sitedir}/xapian
+%attr(755,root,root) %{py_sitedir}/xapian/_xapian.so
+%{py_sitedir}/xapian/__init__.py[co]
 %endif
 
 %if %{with php}
