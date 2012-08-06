@@ -10,7 +10,7 @@
 Summary:	Bindings for Xapian
 Name:		xapian-bindings
 Version:	1.2.9
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Languages
 URL:		http://www.xapian.org/
