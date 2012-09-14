@@ -1,7 +1,7 @@
 # TODO: java, lua, perl
 #
 # Conditional build:
-%bcond_with	dotnet		# C# bindings
+%bcond_without	dotnet		# C# bindings
 %bcond_with	java		# Java bindings
 %bcond_without	php		# PHP bindings
 %bcond_without	python		# Python bindings
@@ -19,7 +19,8 @@ Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	9331d7885a68470184ba3d3e8c2b57d5
 URL:		http://www.xapian.org/
 %{?with_java:BuildRequires:	jdk}
-%{?with_csharp:BuildRequires:	mono-devel >= 2.6.7}
+# 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
+%{?with_csharp:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_php:BuildRequires:	php-devel >= 4:5.0.4}
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel >= 2.3}
@@ -178,8 +179,6 @@ for binding in %{?with_dotnet:csharp} %{?with_php:php} %{?with_python:python} %{
 	cp -a $binding/docs/{index.html,examples} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/$binding
 done
 
-%{?with_dotnet:%{__rm} $RPM_BUILD_ROOT%{_libdir}/XapianSharp.la}
-
 %py_postclean
 
 %clean
@@ -193,7 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with dotnet}
 %files -n dotnet-xapian
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/XapianSharp.so
+%attr(755,root,root) %{_libdir}/_XapianSharp.so
 %dir %{_libdir}/mono
 %{_libdir}/mono/XapianSharp
 %dir %{_libdir}/mono/gac
