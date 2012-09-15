@@ -1,4 +1,4 @@
-# TODO: java, lua, perl
+# TODO: lua, perl
 #
 # Conditional build:
 %bcond_without	dotnet		# C# bindings
@@ -19,6 +19,7 @@ Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	9331d7885a68470184ba3d3e8c2b57d5
 URL:		http://www.xapian.org/
 %{?with_java:BuildRequires:	jdk}
+%{?with_java:BuildRequires:	jpackage-utils}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
 %{?with_csharp:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_php:BuildRequires:	php-devel >= 4:5.0.4}
@@ -46,6 +47,48 @@ probabilistycznych. Oferuje wysoce adoptowalne narzędzia pozwalające
 programistom łatwo dodawać do aplikacji zaawansowane możliwości
 indeksowania i wyszukiwania. Ten pakiet zawiera zestaw wiązań dla
 różnych języków programowania.
+
+%package -n dotnet-xapian
+Summary:	Files needed for developing C# applications which use Xapian
+Summary(pl.UTF-8):	Pliki do tworzenia aplikacji C# wykorzystujących Xapiana
+Group:		Development/Languages
+Requires:	mono >= 2.6.7
+Obsoletes:	csharp-xapian
+
+%description -n dotnet-xapian
+Xapian is an Open Source Probabilistic Information Retrieval
+framework. It offers a highly adaptable toolkit that allows developers
+to easily add advanced indexing and search facilities to applications.
+This package provides the files needed for developing C# applications
+which use Xapian.
+
+%description -n dotnet-xapian -l pl.UTF-8
+Xapian to mająca otwarte źródła biblioteka do uzyskiwania informacji
+probabilistycznych. Oferuje wysoce adoptowalne narzędzia pozwalające
+programistom łatwo dodawać do aplikacji zaawansowane możliwości
+indeksowania i wyszukiwania. Ten pakiet zawiera pliki potrzebne przy
+tworzeniu aplikacji C# wykorzystujących Xapiana.
+
+%package -n java-xapian
+Summary:	Files needed for developing Java applications which use Xapian
+Summary(pl.UTF-8):	Pliki do tworzenia aplikacji Javy wykorzystujących Xapiana
+Group:		Libraries/Java
+Requires:	jpackage-utils
+Requires:	jre
+
+%description -n java-xapian
+Xapian is an Open Source Probabilistic Information Retrieval
+framework. It offers a highly adaptable toolkit that allows developers
+to easily add advanced indexing and search facilities to applications.
+This package provides the files needed for developing Java
+applications which use Xapian.
+
+%description -n java-xapian -l pl.UTF-8
+Xapian to mająca otwarte źródła biblioteka do uzyskiwania informacji
+probabilistycznych. Oferuje wysoce adoptowalne narzędzia pozwalające
+programistom łatwo dodawać do aplikacji zaawansowane możliwości
+indeksowania i wyszukiwania. Ten pakiet zawiera pliki potrzebne przy
+tworzeniu aplikacji Javy wykorzystujących Xapiana.
 
 %package -n php-xapian
 Summary:	Files needed for developing PHP scripts which use Xapian
@@ -127,27 +170,6 @@ programistom łatwo dodawać do aplikacji zaawansowane możliwości
 indeksowania i wyszukiwania. Ten pakiet zawiera pliki potrzebne przy
 tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 
-%package -n dotnet-xapian
-Summary:	Files needed for developing C# applications which use Xapian
-Summary(pl.UTF-8):	Pliki do tworzenia aplikacji C# wykorzystujących Xapiana
-Group:		Development/Languages
-Requires:	mono >= 2.6.7
-Obsoletes:	csharp-xapian
-
-%description -n dotnet-xapian
-Xapian is an Open Source Probabilistic Information Retrieval
-framework. It offers a highly adaptable toolkit that allows developers
-to easily add advanced indexing and search facilities to applications.
-This package provides the files needed for developing C# applications
-which use Xapian.
-
-%description -n dotnet-xapian -l pl.UTF-8
-Xapian to mająca otwarte źródła biblioteka do uzyskiwania informacji
-probabilistycznych. Oferuje wysoce adoptowalne narzędzia pozwalające
-programistom łatwo dodawać do aplikacji zaawansowane możliwości
-indeksowania i wyszukiwania. Ten pakiet zawiera pliki potrzebne przy
-tworzeniu aplikacji C# wykorzystujących Xapiana.
-
 %prep
 %setup -q
 
@@ -164,15 +186,22 @@ tworzeniu aplikacji C# wykorzystujących Xapiana.
 # /bin/sh ../libtool  --config > libtoolconfig.tmp
 # . libtoolconfig.tmp; cp $objdir/_xapian.so .
 # /bin/sh: .: libtoolconfig.tmp: not found
-PATH=$PATH:. %{__make}
+#PATH=$PATH:.
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
-	phpincdir=%{php_data_dir} \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	jnidir=%{_jnidir} \
+	phpincdir=%{php_data_dir}
 
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
+
+%if %{with java}
+install -D java/built/xapian_jni.jar $RPM_BUILD_ROOT%{_javadir}/xapian_jni-%{version}.jar
+ln -sf xapian_jni-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/xapian_jni.jar
+%endif
 
 for binding in %{?with_dotnet:csharp} %{?with_php:php} %{?with_python:python} %{?with_ruby:ruby} %{?with_tcl:tcl8}; do
 	install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/$binding
@@ -197,6 +226,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/mono/XapianSharp
 %dir %{_libdir}/mono/gac
 %{_libdir}/mono/gac/XapianSharp
+%endif
+
+%if %{with java}
+%files -n java-xapian
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_jnidir}/libxapian_jni.so
+%{_javadir}/xapian_jni-%{version}.jar
+%{_javadir}/xapian_jni.jar
 %endif
 
 %if %{with php}
