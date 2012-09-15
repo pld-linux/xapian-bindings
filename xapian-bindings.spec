@@ -1,9 +1,9 @@
-# TODO: lua
 # NOTE: for perl binding, see perl-Search-Xapian.spec
 #
 # Conditional build:
 %bcond_without	dotnet		# C# bindings
 %bcond_without	java		# Java bindings
+%bcond_without	lua		# Lua bindings
 %bcond_without	php		# PHP bindings
 %bcond_without	python		# Python bindings
 %bcond_without	ruby		# Ruby bindings
@@ -21,6 +21,7 @@ Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
 URL:		http://www.xapian.org/
 %{?with_java:BuildRequires:	jdk}
 %{?with_java:BuildRequires:	jpackage-utils}
+%{?with_lua:BuildRequires:	lua51-devel >= 5.1}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
 %{?with_csharp:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_php:BuildRequires:	php-devel >= 4:5.0.4}
@@ -90,6 +91,26 @@ probabilistycznych. Oferuje wysoce adoptowalne narzędzia pozwalające
 programistom łatwo dodawać do aplikacji zaawansowane możliwości
 indeksowania i wyszukiwania. Ten pakiet zawiera pliki potrzebne przy
 tworzeniu aplikacji Javy wykorzystujących Xapiana.
+
+%package -n lua-xapian
+Summary:	Files needed for developing Lua scripts which use Xapian
+Summary(pl.UTF-8):	Pliki do tworzenia skryptów w języku Lua wykorzystujących Xapiana
+Group:		Development/Languages
+Requires:	lua51-libs
+
+%description -n lua-xapian
+Xapian is an Open Source Probabilistic Information Retrieval
+framework. It offers a highly adaptable toolkit that allows developers
+to easily add advanced indexing and search facilities to applications.
+This package provides the files needed for developing Lua scripts
+which use Xapian.
+
+%description -n lua-xapian -l pl.UTF-8
+Xapian to mająca otwarte źródła biblioteka do uzyskiwania informacji
+probabilistycznych. Oferuje wysoce adoptowalne narzędzia pozwalające
+programistom łatwo dodawać do aplikacji zaawansowane możliwości
+indeksowania i wyszukiwania. Ten pakiet zawiera pliki potrzebne przy
+tworzeniu skryptów w języku Lua wykorzystujących Xapiana.
 
 %package -n php-xapian
 Summary:	Files needed for developing PHP scripts which use Xapian
@@ -176,18 +197,15 @@ tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 
 %build
 %configure \
+	%{?with_lua:LUA=/usr/bin/lua51 LUA_INC=/usr/include/lua51} \
 	%{?with_dotnet:--with-csharp} \
 	%{?with_java:--with-java} \
+	%{?with_lua:--with-lua} \
 	%{?with_python:--with-python} \
 	%{?with_php:--with-php} \
 	%{?with_ruby:--with-ruby} \
 	%{?with_tcl:--with-tcl}
 
-# PATH=. hack needed:
-# /bin/sh ../libtool  --config > libtoolconfig.tmp
-# . libtoolconfig.tmp; cp $objdir/_xapian.so .
-# /bin/sh: .: libtoolconfig.tmp: not found
-#PATH=$PATH:.
 %{__make}
 
 %install
@@ -235,6 +253,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_jnidir}/libxapian_jni.so
 %{_javadir}/xapian_jni-%{version}.jar
 %{_javadir}/xapian_jni.jar
+%endif
+
+%if %{with lua}
+%files -n lua-xapian
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/lua/5.1/xapian.so
 %endif
 
 %if %{with php}
