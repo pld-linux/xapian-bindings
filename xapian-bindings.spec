@@ -23,7 +23,7 @@ URL:		http://www.xapian.org/
 %{?with_java:BuildRequires:	jpackage-utils}
 %{?with_lua:BuildRequires:	lua51-devel >= 5.1}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
-%{?with_csharp:BuildRequires:	mono-devel >= 2.11.4}
+%{?with_dotnet:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_php:BuildRequires:	php-devel >= 4:5.0.4}
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel >= 2.3}
