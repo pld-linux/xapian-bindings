@@ -1,8 +1,9 @@
-# TODO: lua, perl
+# TODO: lua
+# NOTE: for perl binding, see perl-Search-Xapian.spec
 #
 # Conditional build:
 %bcond_without	dotnet		# C# bindings
-%bcond_with	java		# Java bindings
+%bcond_without	java		# Java bindings
 %bcond_without	php		# PHP bindings
 %bcond_without	python		# Python bindings
 %bcond_without	ruby		# Ruby bindings
