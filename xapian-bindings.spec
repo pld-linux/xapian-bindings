@@ -8,12 +8,12 @@
 %bcond_without	python		# Python bindings
 %bcond_without	ruby		# Ruby bindings
 %bcond_without	tcl		# Tcl bindings
-#
+
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
 Version:	1.2.12
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
@@ -29,9 +29,10 @@ BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel >= 2.3}
 BuildRequires:	python-modules >= 2.3
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.484
+BuildRequires:	rpmbuild(macros) >= 1.665
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.8}
 %{?with_ruby:BuildRequires:	ruby-modules >= 1.8}
+%{?with_ruby:BuildRequires:	rpm-rubyprov}
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.1}
 BuildRequires:	xapian-core-devel >= %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -156,7 +157,6 @@ tworzeniu skryptów w Pythonie wykorzystujących Xapiana.
 Summary:	Files needed for developing Ruby scripts which use Xapian
 Summary(pl.UTF-8):	Pliki do tworzenia skryptów w języku Ruby wykorzystujących Xapiana
 Group:		Development/Languages
-%{?ruby_mod_ver_requires_eq}
 
 %description -n ruby-xapian
 Xapian is an Open Source Probabilistic Information Retrieval
@@ -196,6 +196,8 @@ tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 %setup -q
 
 %build
+RUBY_LIB=%{ruby_vendorlibdir} \
+RUBY_LIB_ARCH=%{ruby_vendorarchdir} \
 %configure \
 	%{?with_lua:LUA=/usr/bin/lua51 LUA_INC=/usr/include/lua51} \
 	%{?with_dotnet:--with-csharp} \
@@ -279,8 +281,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with ruby}
 %files -n ruby-xapian
 %defattr(644,root,root,755)
-%attr(755,root,root) %{ruby_sitearchdir}/_xapian.so
-%{ruby_sitelibdir}/xapian.rb
+%attr(755,root,root) %{ruby_vendorarchdir}/_xapian.so
+%{ruby_vendorlibdir}/xapian.rb
 %endif
 
 %if %{with tcl}
