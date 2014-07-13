@@ -12,12 +12,12 @@
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
-Version:	1.2.12
-Release:	2
+Version:	1.2.18
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages
-Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	9331d7885a68470184ba3d3e8c2b57d5
+Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	c9969a7e15fbb581a3126e7babdc2f58
 URL:		http://www.xapian.org/
 %{?with_java:BuildRequires:	jdk}
 %{?with_java:BuildRequires:	jpackage-utils}
