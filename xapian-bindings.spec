@@ -24,7 +24,7 @@ URL:		http://www.xapian.org/
 %{?with_lua:BuildRequires:	lua51-devel >= 5.1}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
 %{?with_dotnet:BuildRequires:	mono-devel >= 2.11.4}
-%{?with_php:BuildRequires:	php-devel >= 4:5.0.4}
+%{?with_php:BuildRequires:	%{php_name}-devel >= 4:5.0.4}
 BuildRequires:	pkgconfig
 %{?with_python:BuildRequires:	python-devel >= 2.3}
 BuildRequires:	python-modules >= 2.3
@@ -113,20 +113,20 @@ programistom łatwo dodawać do aplikacji zaawansowane możliwości
 indeksowania i wyszukiwania. Ten pakiet zawiera pliki potrzebne przy
 tworzeniu skryptów w języku Lua wykorzystujących Xapiana.
 
-%package -n php-xapian
+%package -n %{php_name}-xapian
 Summary:	Files needed for developing PHP scripts which use Xapian
 Summary(pl.UTF-8):	Pliki do tworzenia skryptów w PHP wykorzystujących Xapiana
 Group:		Development/Languages/PHP
 %{?requires_php_extension}
 
-%description -n php-xapian
+%description -n %{php_name}-xapian
 Xapian is an Open Source Probabilistic Information Retrieval
 framework. It offers a highly adaptable toolkit that allows developers
 to easily add advanced indexing and search facilities to applications.
 This package provides the files needed for developing PHP scripts
 which use Xapian.
 
-%description -n php-xapian -l pl.UTF-8
+%description -n %{php_name}-xapian -l pl.UTF-8
 Xapian to mająca otwarte źródła biblioteka do uzyskiwania informacji
 probabilistycznych. Oferuje wysoce adoptowalne narzędzia pozwalające
 programistom łatwo dodawać do aplikacji zaawansowane możliwości
@@ -264,7 +264,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with php}
-%files -n php-xapian
+%files -n %{php_name}-xapian
 %defattr(644,root,root,755)
 %attr(755,root,root) %{php_extensiondir}/xapian.so
 %{php_data_dir}/xapian.php
