@@ -19,15 +19,15 @@ Group:		Development/Languages
 Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
 # Source0-md5:	c9969a7e15fbb581a3126e7babdc2f58
 URL:		http://www.xapian.org/
-%{?with_java:BuildRequires:	jdk}
+%{?with_java:BuildRequires:	jdk >= 1.2}
 %{?with_java:BuildRequires:	jpackage-utils}
 %{?with_lua:BuildRequires:	lua51-devel >= 5.1}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
 %{?with_dotnet:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:5.0.4}
 BuildRequires:	pkgconfig
-%{?with_python:BuildRequires:	python-devel >= 2.3}
-BuildRequires:	python-modules >= 2.3
+%{?with_python:BuildRequires:	python-devel >= 1:2.3}
+BuildRequires:	python-modules >= 1:2.3
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.665
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.8}
