@@ -196,6 +196,7 @@ tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 %setup -q
 
 %build
+CLASSPATH="." \
 RUBY_LIB=%{ruby_vendorlibdir} \
 RUBY_LIB_ARCH=%{ruby_vendorarchdir} \
 %configure \
