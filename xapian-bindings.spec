@@ -1,4 +1,5 @@
 # NOTE: for perl binding, see perl-Search-Xapian.spec
+# TODO: python3- after upgrade to 1.3.x/1.4.x
 #
 # Conditional build:
 %bcond_without	dotnet		# C# bindings
@@ -12,16 +13,16 @@
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
-Version:	1.2.18
-Release:	2
+Version:	1.2.21
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	c9969a7e15fbb581a3126e7babdc2f58
+# Source0-md5:	33c598a26fcf92ab15af6c65475ab8de
 URL:		http://www.xapian.org/
 %{?with_java:BuildRequires:	jdk >= 1.2}
 %{?with_java:BuildRequires:	jpackage-utils}
-%{?with_lua:BuildRequires:	lua51-devel >= 5.1}
+%{?with_lua:BuildRequires:	lua51-devel >= 5.1.5-2}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
 %{?with_dotnet:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:5.0.4}
@@ -200,7 +201,7 @@ CLASSPATH="." \
 RUBY_LIB=%{ruby_vendorlibdir} \
 RUBY_LIB_ARCH=%{ruby_vendorarchdir} \
 %configure \
-	%{?with_lua:LUA=/usr/bin/lua51 LUA_INC=/usr/include/lua51} \
+	%{?with_lua:LUA=/usr/bin/lua5.1 LUA_INC=/usr/include/lua51} \
 	%{?with_dotnet:--with-csharp} \
 	%{?with_java:--with-java} \
 	%{?with_lua:--with-lua} \
