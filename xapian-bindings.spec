@@ -10,11 +10,15 @@
 %bcond_without	ruby		# Ruby bindings
 %bcond_without	tcl		# Tcl bindings
 
+%ifarch x32
+%undefine	with_dotnet
+%endif
+
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
 Version:	1.2.21
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
