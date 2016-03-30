@@ -14,11 +14,12 @@ Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
 Version:	1.2.21
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	http://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
 # Source0-md5:	33c598a26fcf92ab15af6c65475ab8de
+Patch0:		python-install.patch
 URL:		http://www.xapian.org/
 %{?with_java:BuildRequires:	jdk >= 1.2}
 %{?with_java:BuildRequires:	jpackage-utils}
@@ -195,8 +196,11 @@ tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+%{__aclocal}
+%{__autoconf}
 CLASSPATH="." \
 RUBY_LIB=%{ruby_vendorlibdir} \
 RUBY_LIB_ARCH=%{ruby_vendorarchdir} \
