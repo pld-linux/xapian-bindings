@@ -1,11 +1,20 @@
---- xapian-bindings-1.2.21/configure.ac~	2015-05-21 14:57:01.000000000 +0900
-+++ xapian-bindings-1.2.21/configure.ac	2016-03-30 21:24:31.826127813 +0900
-@@ -312,7 +312,7 @@
+--- xapian-bindings-1.4.4/configure.ac.orig	2017-04-28 15:59:14.590553235 +0200
++++ xapian-bindings-1.4.4/configure.ac	2017-04-28 16:00:59.977218698 +0200
+@@ -369,7 +369,7 @@
  	AC_MSG_RESULT(yes)
- 	AC_MSG_CHECKING([for directory to install python bindings in])
- 	if test -z "$PYTHON_LIB" ; then
--	  PYTHON_LIB=`$PYTHON -c 'import os,distutils.sysconfig;print(distutils.sysconfig.get_python_lib(1).replace(os.sep,"/"))'`
-+	  PYTHON_LIB=`$PYTHON -c 'import os,distutils.sysconfig;print(distutils.sysconfig.get_python_lib(plat_specific=True,prefix="/usr").replace(os.sep,"/"))'`
+ 	AC_MSG_CHECKING([for directory to install python2 bindings in])
+ 	if test -z "$PYTHON2_LIB" ; then
+-	  PYTHON2_LIB=`$PYTHON2 -c 'import os,distutils.sysconfig;print(distutils.sysconfig.get_python_lib(1).replace(os.sep,"/"))'`
++	  PYTHON2_LIB=`$PYTHON2 -c 'import os,distutils.sysconfig;print(distutils.sysconfig.get_python_lib(plat_specific=True,prefix="/usr").replace(os.sep,"/"))'`
  	fi
- 	AC_MSG_RESULT([$PYTHON_LIB])
- 	AC_ARG_VAR(PYTHON_LIB, [Directory to install python bindings in])
+ 	AC_MSG_RESULT([$PYTHON2_LIB])
+ 	AC_ARG_VAR(PYTHON2_LIB, [Directory to install python2 bindings in])
+@@ -459,7 +459,7 @@
+ 	AC_MSG_RESULT(yes)
+ 	AC_MSG_CHECKING([for directory to install python3 bindings in])
+ 	if test -z "$PYTHON3_LIB" ; then
+-	  PYTHON3_LIB=`$PYTHON3 -c 'import os,distutils.sysconfig;print(distutils.sysconfig.get_python_lib(1).replace(os.sep,"/"))'`
++	  PYTHON3_LIB=`$PYTHON3 -c 'import os,distutils.sysconfig;print(distutils.sysconfig.get_python_lib(plat_specific=True,prefix="/usr").replace(os.sep,"/"))'`
+ 	fi
+ 	AC_MSG_RESULT([$PYTHON3_LIB])
+ 	AC_ARG_VAR(PYTHON3_LIB, [Directory to install python3 bindings in])
