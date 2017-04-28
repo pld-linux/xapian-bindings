@@ -20,7 +20,7 @@ Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
 Version:	1.4.4
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	https://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
@@ -286,7 +286,7 @@ CLASSPATH="." \
 	%{?with_tcl:--with-tcl}
 
 %{__make} \
-	JAVA_CPPFLAGS="-I%{_jvmdir}/java/include"
+	JAVA_CPPFLAGS="-I%{_jvmdir}/java/include -I%{_jvmdir}/java/include/linux"
 
 %install
 rm -rf $RPM_BUILD_ROOT
