@@ -4,7 +4,7 @@
 %bcond_without	java		# Java bindings
 %bcond_without	lua		# Lua bindings
 %bcond_without	perl		# Perl bindings
-%bcond_without	php		# PHP bindings
+%bcond_with	php		# PHP bindings
 %bcond_without	python2		# Python 2 bindings
 %bcond_without	python3		# Python 3 bindings
 %bcond_without	ruby		# Ruby bindings
@@ -20,7 +20,7 @@ Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
 Version:	1.4.4
-Release:	8
+Release:	9
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	https://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
