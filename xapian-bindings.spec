@@ -19,18 +19,19 @@
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
-Version:	1.4.4
-Release:	10
+Version:	1.4.11
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	https://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	55f2678a029baa4f897f583e86e33ed8
+# Source0-md5:	3c0cc930a8d1fe56d946e9d4aa205789
 Patch0:		python-install.patch
 URL:		https://xapian.org/
 BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.11.2
+BuildRequires:	automake >= 1:1.12.2
 %{?with_java:BuildRequires:	jdk >= 1.2}
 %{?with_java:BuildRequires:	jpackage-utils}
+BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2.6
 %{?with_lua:BuildRequires:	lua51-devel >= 5.1.5-2}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
