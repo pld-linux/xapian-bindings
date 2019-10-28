@@ -39,7 +39,9 @@ BuildRequires:	libtool >= 2:2.2.6
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.0}
 %{?with_php:BuildRequires:	%{php_name}-devel >= 4:5.0.4}
 BuildRequires:	pkgconfig
+%{?with_python2:BuildRequires:	python-Sphinx}
 %{?with_python2:BuildRequires:	python-devel >= 1:2.6}
+%{?with_python3:BuildRequires:	python3-Sphinx}
 %{?with_python3:BuildRequires:	python3-devel >= 1:3.2}
 BuildRequires:	python-modules >= 1:2.3
 BuildRequires:	rpm-pythonprov
