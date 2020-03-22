@@ -14,8 +14,6 @@
 %undefine	with_dotnet
 %endif
 
-%{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
-%{?with_perl:%include	/usr/lib/rpm/macros.perl}
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
