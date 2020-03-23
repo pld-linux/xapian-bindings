@@ -18,7 +18,7 @@ Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
 Version:	1.4.11
-Release:	4
+Release:	5
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	https://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
@@ -262,6 +262,15 @@ tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 %prep
 %setup -q
 %patch0 -p1
+
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python(\s|$),#!%{__python}\1,' -e '1s,#!\s*/usr/bin/python(\s|$),#!%{__python}\1,' \
+      python/docs/examples/*.py
+
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python(\s|$),#!%{__python3}\1,' -e '1s,#!\s*/usr/bin/python(\s|$),#!%{__python3}\1,' \
+      python3/docs/examples/*.py
+
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+ruby(\s|$),#!%{__ruby}\1,' \
+      ruby/docs/examples/*.rb
 
 %build
 %{__libtoolize}
