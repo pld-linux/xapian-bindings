@@ -43,10 +43,10 @@ BuildRequires:	pkgconfig
 %{?with_python3:BuildRequires:	python3-devel >= 1:3.2}
 BuildRequires:	python-modules >= 1:2.3
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.665
+BuildRequires:	rpmbuild(macros) >= 1.745
+%{?with_ruby:BuildRequires:	rpm-rubyprov}
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.8}
 %{?with_ruby:BuildRequires:	ruby-modules >= 1.8}
-%{?with_ruby:BuildRequires:	rpm-rubyprov}
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.1}
 BuildRequires:	xapian-core-devel >= %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
