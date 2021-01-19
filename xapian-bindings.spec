@@ -17,12 +17,12 @@
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
-Version:	1.4.11
-Release:	5
+Version:	1.4.18
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	https://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	3c0cc930a8d1fe56d946e9d4aa205789
+# Source0-md5:	b9e5abec087824ede77a885d0bafd6af
 Patch0:		python-install.patch
 URL:		https://xapian.org/
 BuildRequires:	autoconf >= 2.63
@@ -31,7 +31,7 @@ BuildRequires:	automake >= 1:1.12.2
 %{?with_java:BuildRequires:	jpackage-utils}
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2.6
-%{?with_lua:BuildRequires:	lua51-devel >= 5.1.5-2}
+%{?with_lua:BuildRequires:	lua51-devel >= 5.1.5-7}
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
 %{?with_dotnet:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.0}
@@ -284,7 +284,7 @@ CLASSPATH="." \
 	PERL_LIB=%{perl_vendorlib} \
 	RUBY_LIB=%{ruby_vendorlibdir} \
 	RUBY_LIB_ARCH=%{ruby_vendorarchdir} \
-	%{?with_lua:LUA=/usr/bin/lua5.1 LUA_INC=/usr/include/lua51} \
+	%{?with_lua:LUA=/usr/bin/lua5.1 LUA_INC=/usr/include/lua5.1} \
 	%{?with_dotnet:--with-csharp} \
 	%{?with_java:--with-java} \
 	%{?with_lua:--with-lua} \
