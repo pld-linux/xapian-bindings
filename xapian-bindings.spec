@@ -18,7 +18,7 @@ Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
 Version:	1.4.18
-Release:	5
+Release:	6
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	https://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
