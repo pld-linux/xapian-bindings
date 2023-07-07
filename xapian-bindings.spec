@@ -299,7 +299,7 @@ CLASSPATH="." \
 	%{?with_tcl:--with-tcl}
 
 %{__make} \
-	JAVA_CPPFLAGS="-I%{_jvmdir}/java/include -I%{_jvmdir}/java/include/linux"
+	%{?with_java:JAVA_CPPFLAGS="-I%{java_home}/include -I%{java_home}/include/linux"}
 
 %install
 rm -rf $RPM_BUILD_ROOT
