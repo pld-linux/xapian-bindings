@@ -49,8 +49,10 @@ BuildRequires:	rpmbuild(macros) >= 2.021
 %{?with_ruby:BuildRequires:	rpm-rubyprov}
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.8}
 %{?with_ruby:BuildRequires:	ruby-modules >= 1.8}
+BuildRequires:	tar >= 1:1.22
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.1}
 BuildRequires:	xapian-core-devel >= %{version}
+BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{with php}
