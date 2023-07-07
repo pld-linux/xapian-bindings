@@ -14,6 +14,8 @@
 %undefine	with_dotnet
 %endif
 
+%{?with_java:%{?use_default_jdk}}
+
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
@@ -27,7 +29,7 @@ Patch0:		python-install.patch
 URL:		https://xapian.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.12.2
-%{?with_java:BuildRequires:	jdk >= 1.2}
+%{?with_java:%buildrequires_jdk}
 %{?with_java:BuildRequires:	jpackage-utils}
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2.6
@@ -43,7 +45,7 @@ BuildRequires:	pkgconfig
 %{?with_python3:BuildRequires:	python3-devel >= 1:3.2}
 BuildRequires:	python-modules >= 1:2.3
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.745
+BuildRequires:	rpmbuild(macros) >= 2.021
 %{?with_ruby:BuildRequires:	rpm-rubyprov}
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.8}
 %{?with_ruby:BuildRequires:	ruby-modules >= 1.8}
@@ -279,6 +281,7 @@ tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 %{__autoheader}
 %{__automake}
 CLASSPATH="." \
+%{?with_java:export JAVA_HOME="%{java_home}"}
 %configure \
 	PERL_ARCH=%{perl_vendorarch} \
 	PERL_LIB=%{perl_vendorlib} \
