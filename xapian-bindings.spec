@@ -19,12 +19,12 @@
 Summary:	Bindings for Xapian
 Summary(pl.UTF-8):	Wiązania do Xapiana
 Name:		xapian-bindings
-Version:	1.4.18
-Release:	8
+Version:	1.4.25
+Release:	1
 License:	GPL v2+
 Group:		Development/Languages
 Source0:	https://oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	b9e5abec087824ede77a885d0bafd6af
+# Source0-md5:	a47099cd57c7ef11b07610fb973491d6
 Patch0:		python-install.patch
 URL:		https://xapian.org/
 BuildRequires:	autoconf >= 2.63
@@ -37,7 +37,7 @@ BuildRequires:	libtool >= 2:2.2.6
 # 2.6.x should be sufficient, but 2.11.1 complaints about write permissions to /usr/share/.mono/keypairs
 %{?with_dotnet:BuildRequires:	mono-devel >= 2.11.4}
 %{?with_perl:BuildRequires:	perl-devel >= 1:5.8.0}
-%{?with_php:BuildRequires:	%{php_name}-devel >= 4:5.0.4}
+%{?with_php:BuildRequires:	%{php_name}-devel >= 4:8.0}
 BuildRequires:	pkgconfig
 %{?with_python2:BuildRequires:	python-Sphinx}
 %{?with_python2:BuildRequires:	python-devel >= 1:2.6}
@@ -50,18 +50,10 @@ BuildRequires:	rpmbuild(macros) >= 2.021
 %{?with_ruby:BuildRequires:	ruby-devel >= 1.8}
 %{?with_ruby:BuildRequires:	ruby-modules >= 1.8}
 BuildRequires:	tar >= 1:1.22
-%{?with_tcl:BuildRequires:	tcl-devel >= 8.1}
+%{?with_tcl:BuildRequires:	tcl-devel >= 8.5}
 BuildRequires:	xapian-core-devel >= %{version}
 BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%if %{with php}
-%if "%{php_major_version}" >= "7"
-%define		phpbindname	php7
-%else
-%define		phpbindname	php
-%endif
-%endif
 
 %description
 Xapian is an Open Source Probabilistic Information Retrieval Library.
@@ -83,7 +75,7 @@ Summary(pl.UTF-8):	Pliki do tworzenia aplikacji C# wykorzystujących Xapiana
 Group:		Development/Languages
 Requires:	mono >= 2.6.7
 Requires:	xapian-core-libs >= %{version}
-Obsoletes:	csharp-xapian
+Obsoletes:	csharp-xapian < 1.2.12
 
 %description -n dotnet-xapian
 Xapian is an Open Source Probabilistic Information Retrieval
@@ -246,7 +238,7 @@ tworzeniu skryptów w języku Ruby wykorzystujących Xapiana.
 Summary:	Files needed for developing Tcl scripts which use Xapian
 Summary(pl.UTF-8):	Pliki do tworzenia skryptów w Tcl-u wykorzystujących Xapiana
 Group:		Development/Languages/Tcl
-Requires:	tcl >= 8.1
+Requires:	tcl >= 8.5
 Requires:	xapian-core-libs >= %{version}
 
 %description -n tcl-xapian
@@ -289,6 +281,7 @@ CLASSPATH="." \
 	PERL_LIB=%{perl_vendorlib} \
 	RUBY_LIB=%{ruby_vendorlibdir} \
 	RUBY_LIB_ARCH=%{ruby_vendorarchdir} \
+	TCL_LIB=%{_libdir} \
 	%{?with_lua:LUA=/usr/bin/lua5.1 LUA_INC=/usr/include/lua5.1} \
 	%{?with_dotnet:--with-csharp} \
 	%{?with_java:--with-java} \
@@ -296,7 +289,7 @@ CLASSPATH="." \
 	%{?with_perl:--with-perl} \
 	%{?with_python2:--with-python} \
 	%{?with_python3:--with-python3} \
-	%{?with_php:--with-%{phpbindname}} \
+	%{?with_php:--with-php} \
 	%{?with_ruby:--with-ruby} \
 	%{?with_tcl:--with-tcl}
 
@@ -317,7 +310,7 @@ install -D java/built/xapian.jar $RPM_BUILD_ROOT%{_javadir}/xapian-%{version}.ja
 ln -sf xapian-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/xapian.jar
 %endif
 
-for binding in %{?with_dotnet:csharp} %{?with_perl:perl} %{?with_php:%{phpbindname}} %{?with_python2:python} %{?with_python3:python3} %{?with_ruby:ruby} %{?with_tcl:tcl8}; do
+for binding in %{?with_dotnet:csharp} %{?with_perl:perl} %{?with_php:php} %{?with_python2:python} %{?with_python3:python3} %{?with_ruby:ruby} %{?with_tcl:tcl8}; do
 	install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/$binding
 	[ ! -f $binding/docs/index.html ] || cp -p $binding/docs/index.html $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/$binding
 	cp -pr $binding/docs/examples $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/$binding
@@ -377,7 +370,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{php_name}-xapian
 %defattr(644,root,root,755)
 %attr(755,root,root) %{php_extensiondir}/xapian.so
-%{php_data_dir}/xapian.php
 %endif
 
 %if %{with python2}
