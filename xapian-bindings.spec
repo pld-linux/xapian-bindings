@@ -257,7 +257,7 @@ tworzeniu skryptów w Tcl-u wykorzystujących Xapiana.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P 0 -p1
 
 %{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python(\s|$),#!%{__python}\1,' -e '1s,#!\s*/usr/bin/python(\s|$),#!%{__python}\1,' \
       python/docs/examples/*.py
